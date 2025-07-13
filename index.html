@@ -8,14 +8,42 @@
         /* --- Google Font --- */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-        /* --- CSS Variables for Easy Theme Choices --- */
+        /* --- CSS Variables for Modern Theme --- */
         :root {
-            /* --- CHOICE 1: Modern & Vibrant (Default) --- */
-            --primary-color: #007BFF; /* Bright Blue */
-            --secondary-color: #f8f9fa; /* Light Gray */
-            --text-color: #343a40; /* Dark Gray */
-            --bg-color: #FFFFFF; /* White */
-            --heading-font-weight: 700;
+            --primary-color: #007BFF;
+            --primary-color-dark: #0056b3;
+            --secondary-color: rgba(255, 255, 255, 0.7); /* Frosted Glass */
+            --text-color: #212529;
+            --bg-color: #f4f7f9;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --white-color: #FFFFFF;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+        }
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
 
         /* General Styles */
@@ -41,16 +69,17 @@
 
         /* Header & Navigation */
         .main-header {
-            background-color: var(--bg-color);
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 1rem 0;
             border-bottom: 1px solid #eee;
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.8);
+            -webkit-backdrop-filter: blur(10px);
+            transition: box-shadow var(--transition-speed) ease;
         }
-        
+
         .main-nav {
             display: flex;
             justify-content: space-between;
@@ -75,7 +104,7 @@
             text-decoration: none;
             color: var(--text-color);
             font-weight: 600;
-            transition: color 0.3s ease;
+            transition: color var(--transition-speed) ease;
         }
 
         .nav-links a:hover {
@@ -90,13 +119,17 @@
             text-align: center;
             min-height: 80vh;
             padding: 4rem 2rem;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=2070') no-repeat center center/cover;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=2070') no-repeat center center/cover;
             color: white;
         }
         
+        .hero-content {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
         .hero-content h1 {
             font-size: 3.5rem;
-            font-weight: var(--heading-font-weight);
+            font-weight: 700;
             margin-bottom: 1rem;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
@@ -111,17 +144,19 @@
         .cta-button {
             display: inline-block;
             background-color: var(--primary-color);
-            color: #fff;
+            color: var(--white-color);
             padding: 1rem 2rem;
             text-decoration: none;
             font-weight: 600;
-            border-radius: 5px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-radius: 50px; /* Pill shape */
+            transition: transform var(--transition-speed) ease, background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            background-color: #0056b3;
+            transform: translateY(-5px);
+            background-color: var(--primary-color-dark);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.5);
         }
 
         /* Questions Section Styles */
@@ -130,22 +165,63 @@
             background-color: var(--bg-color);
         }
 
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            animation: fadeIn 1s ease-in;
+        }
+
         #quiz-container {
             background-color: var(--secondary-color);
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem 3rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             max-width: 700px;
             margin: 0 auto;
             text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Progress Bar */
+        #progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            height: 10px;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-color);
+            border-radius: 50px;
+            transition: width 0.5s ease-in-out;
         }
 
         #question-text {
-            font-size: 1.1rem; /* Smaller font size */
+            font-size: 1.2rem;
             margin-bottom: 2rem;
             color: var(--text-color);
             font-weight: 600;
             text-align: left;
+            min-height: 80px; /* Prevent layout shift */
+        }
+
+        .quiz-content.fade-out {
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+        }
+
+        .quiz-content.fade-in {
+            opacity: 1;
+            transition: opacity 0.4s ease-in;
         }
 
         .options-container {
@@ -156,79 +232,101 @@
         }
 
         .option-button {
-            background-color: var(--bg-color);
+            background-color: var(--white-color);
             color: var(--text-color);
-            border: 2px solid var(--primary-color);
-            padding: 0.8rem 1.2rem; /* Smaller padding */
-            font-size: 1rem; /* Smaller font size */
-            border-radius: 8px;
+            border: 2px solid #ddd;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            transition: all var(--transition-speed) ease;
             text-align: left;
         }
 
-        .option-button:hover {
-            transform: translateY(-2px);
+        .option-button:hover:not(.disabled) {
+            transform: translateY(-3px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
-        /* Styles for correct/incorrect answers */
         .option-button.correct {
-            background-color: #28a745; /* Green for correct */
-            color: #fff;
-            border-color: #28a745;
+            background-color: var(--success-color);
+            color: var(--white-color);
+            border-color: var(--success-color);
+            transform: scale(1.03);
         }
 
         .option-button.incorrect {
-            background-color: #dc3545; /* Red for incorrect */
-            color: #fff;
-            border-color: #dc3545;
+            background-color: var(--danger-color);
+            color: var(--white-color);
+            border-color: var(--danger-color);
+            animation: shake 0.5s ease;
         }
 
-        .option-button.selected-wrong {
-            background-color: #ffc107; /* Yellowish for selected but wrong */
-            color: var(--text-color);
-            border-color: #ffc107;
-        }
-
-        /* Disable pointer events on options after selection */
-        .options-container.disabled .option-button {
+        .options-container.disabled {
             pointer-events: none;
-            opacity: 0.7;
+        }
+        
+        .options-container.disabled .option-button:not(.correct):not(.incorrect) {
+            opacity: 0.6;
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .quiz-navigation button {
             background-color: var(--primary-color);
-            color: #fff;
-            padding: 0.8rem 1.5rem;
+            color: var(--white-color);
+            padding: 0.8rem 1.8rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 0 0.5rem;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
         }
 
         .quiz-navigation button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .quiz-navigation button:hover:not(:disabled) {
-            background-color: #0056b3;
+            background-color: var(--primary-color-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
         }
 
         #quiz-result {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-top: 2rem;
+            padding: 2rem;
+            text-align: center;
+            animation: slideInUp 0.5s ease-out;
         }
+
+        #result-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+        
+        #result-text .score {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+        }
+
         /* Footer */
         .main-footer {
             background-color: var(--text-color);
             color: #ccc;
             text-align: center;
             padding: 2rem 0;
+            margin-top: 4rem;
         }
         
         .main-footer p {
@@ -254,15 +352,15 @@
             }
 
             #question-text {
-                font-size: 1rem;
+                font-size: 1.1rem;
+                min-height: 100px;
             }
 
             .option-button {
                 font-size: 0.9rem;
-                padding: 0.7rem 1rem;
+                padding: 0.8rem 1.2rem;
             }
         }
-
     </style>
 </head>
 <body>
@@ -280,19 +378,23 @@
     <main>
         <section id="hero">
             <div class="hero-content">
-                <h1>Calculation Drug Test</h1>
-                <p>Welcome! Get ready to test your knowledge with these drug calculation questions.</p>
+                <h1>Drug Calculation Test</h1>
+                <p>Welcome! Sharpen your skills and test your knowledge with these drug calculation questions.</p>
                 <a href="#questions" class="cta-button">Start Test Now</a>
             </div>
         </section>
 
         <section id="questions">
             <div class="container">
-                <h2 class="section-title">Drug Calculation Questions</h2>
-                <div id="quiz-container">
-                    <p id="question-text">Question will appear here...</p>
-                    <div id="options-container" class="options-container">
-                        </div>
+                <h2 class="section-title">Test Your Knowledge</h2>
+                <div id="quiz-container" style="display: none;">
+                    <div id="progress-bar-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div id="quiz-content" class="quiz-content">
+                        <p id="question-text">Question will appear here...</p>
+                        <div id="options-container" class="options-container"></div>
+                    </div>
                     <div class="quiz-navigation">
                         <button id="prev-button" disabled>Previous</button>
                         <button id="next-button">Next</button>
@@ -310,263 +412,297 @@
     </footer>
 
     <script>
-        const allQuestions = [
-            {
-                question: "The doctor orders an IV medication to be infused at 4 mcg/kg/min. The patient weighs 75 kg. You are supplied with a bag of the IV medication that reads 250 mg/250 mL. How many mL/hr will you administer?",
-                options: ["9 mL/hr", "18 mL/hr", "36 mL/hr", "72 mL/hr"],
-                answer: "18 mL/hr"
-            },
-            {
-                question: "Dr orders Fentanyl 75 mcg IV pre-procedural. The vial is labeled 0.5 mg/mL. How many mL will you give per dose?",
-                options: ["0.075 mL/dose", "0.15 mL/dose", "0.75 mL/dose", "1.5 mL/dose"],
-                answer: "0.15 mL/dose"
-            },
-            {
-                question: "Dr orders Insulin 8 units subcutaneous daily. The vial is labeled 100 units/mL. How many mL will you give per dose?",
-                options: ["0.008 mL/dose", "0.04 mL/dose", "0.08 mL/dose", "0.8 mL/dose"],
-                answer: "0.08 mL/dose"
-            },
-            {
-                question: "Dr orders Morphine 6 mg IV as needed for pain. The vial is labeled 10 mg/mL. How many mL will you give per dose?",
-                options: ["0.06 mL/dose", "0.1 mL/dose", "0.6 mL/dose", "1.0 mL/dose"],
-                answer: "0.6 mL/dose"
-            },
-            {
-                question: "Dr orders Amiodarone 300 mg IV stat. The vial is labeled 900 mg/6 mL. How many mL will you give per dose?",
-                options: ["1 mL/dose", "2 mL/dose", "3 mL/dose", "4 mL/dose"],
-                answer: "2 mL/dose"
-            },
-            {
-                question: "Dr orders Lactulose 20 Grams by mouth twice a day. The pharmacy dispenses you with 40 grams/60 mL. How many mL will you administer per dose?",
-                options: ["15 mL/dose", "20 mL/dose", "30 mL/dose", "40 mL/dose"],
-                answer: "30 mL/dose"
-            },
-            {
-                question: "Dr orders Dopamine to be infused at 5 mcg/kg/min. The patient weighs 60 kg. You are supplied with a bag of the IV medication that reads 400 mg/250 mL. How many mL/hr will you administer?",
-                options: ["5.625 mL/hr", "11.25 mL/hr", "22.5 mL/hr", "45 mL/hr"],
-                answer: "11.25 mL/hr"
-            },
-            {
-                question: "Dr orders Heparin 5000 units subcutaneous daily. The vial is labeled 10,000 units/mL. How many mL will you give per dose?",
-                options: ["0.1 mL/dose", "0.25 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
-                answer: "0.5 mL/dose"
-            },
-            {
-                question: "Dr orders Atropine 0.5 mg IV pre-procedural. The vial is labeled 1 mg/mL. How many mL will you give per dose?",
-                options: ["0.1 mL/dose", "0.25 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
-                answer: "0.5 mL/dose"
-            },
-            {
-                question: "Dr orders Vancomycin 750 mg IV every 12 hours. The vial is labeled 1 g/10 mL. How many mL will you give per dose?",
-                options: ["0.75 mL/dose", "3.75 mL/dose", "7.5 mL/dose", "15 mL/dose"],
-                answer: "7.5 mL/dose"
-            },
-            {
-                question: "Dr orders Enoxaparin 40 mg subcutaneous daily. The vial is labeled 80 mg/0.8 mL. How many mL will you give per dose?",
-                options: ["0.2 mL/dose", "0.4 mL/dose", "0.6 mL/dose", "0.8 mL/dose"],
-                answer: "0.4 mL/dose"
-            },
-            {
-                question: "Dr orders Hydromorphone 2 mg IV as needed for pain. The vial is labeled 10 mg/mL. How many mL will you give per dose?",
-                options: ["0.1 mL/dose", "0.2 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
-                answer: "0.2 mL/dose"
-            },
-            {
-                question: "Dr orders Diltiazem to be infused at 10 mg/hr. You are supplied with a bag of the IV medication that reads 250 mg/250 mL. How many mL/hr will you administer?",
-                options: ["5 mL/hr", "10 mL/hr", "15 mL/hr", "20 mL/hr"],
-                answer: "10 mL/hr"
-            },
-            {
-                question: "Dr orders Potassium Chloride 20 mEq IV daily. The vial is labeled 40 mEq/20 mL. How many mL will you give per dose?",
-                options: ["5 mL/dose", "10 mL/dose", "15 mL/dose", "20 mL/dose"],
-                answer: "10 mL/dose"
-            },
-            {
-                question: "Dr orders Ondansetron 6 mg IV every 6 hours as needed for nausea. The vial is labeled 4 mg/2 mL. How many mL will you give per dose?",
-                options: ["1.5 mL/dose", "2 mL/dose", "3 mL/dose", "4.5 mL/dose"],
-                answer: "3 mL/dose"
-            },
-            {
-                question: "Dr orders Midazolam 4 mg IV pre-procedural. The vial is labeled 5 mg/mL. How many mL will you give per dose?",
-                options: ["0.4 mL/dose", "0.6 mL/dose", "0.8 mL/dose", "1.0 mL/dose"],
-                answer: "0.8 mL/dose"
-            },
-            {
-                question: "Dr orders Epinephrine to be infused at 0.1 mcg/kg/min. The patient weighs 90 kg. You are supplied with a bag of the IV medication that reads 1 mg/250 mL. How many mL/hr will you administer?",
-                options: ["22.5 mL/hr", "45 mL/hr", "90 mL/hr", "135 mL/hr"],
-                answer: "135 mL/hr"
-            },
-            {
-                question: "Dr orders Metoprolol 12.5 mg IV every 6 hours. The vial is labeled 5 mg/mL. How many mL will you give per dose?",
-                options: ["1.25 mL/dose", "2.5 mL/dose", "3.75 mL/dose", "5 mL/dose"],
-                answer: "2.5 mL/dose"
-            },
-            {
-                question: "Dr orders Sodium Bicarbonate 50 mEq IV stat. The vial is labeled 100 mEq/50 mL. How many mL will you give per dose?",
-                options: ["12.5 mL/dose", "25 mL/dose", "37.5 mL/dose", "50 mL/dose"],
-                answer: "25 mL/dose"
-            },
-            {
-                question: "Dr orders Ceftriaxone 1 g IV daily. The vial is labeled 2 g/10 mL. How many mL will you give per dose?",
-                options: ["2 mL/dose", "2.5 mL/dose", "5 mL/dose", "10 mL/dose"],
-                answer: "5 mL/dose"
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(allQuestions.length).fill(null);
-        let score = 0;
-        let shuffledQuestions = [];
-
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const prevButton = document.getElementById('prev-button');
-        const nextButton = document.getElementById('next-button');
-        const quizResult = document.getElementById('quiz-result');
-
-        // Function to shuffle an array
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-            }
-            return array;
-        }
-
-        function startQuiz() {
-            shuffledQuestions = shuffleArray([...allQuestions]); // Shuffle a copy of allQuestions
-            currentQuestionIndex = 0;
-            userAnswers = new Array(shuffledQuestions.length).fill(null);
-            score = 0;
-            quizResult.style.display = 'none';
-            prevButton.style.display = 'inline-block';
-            nextButton.style.display = 'inline-block';
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            if (currentQuestionIndex < shuffledQuestions.length) {
-                const q = shuffledQuestions[currentQuestionIndex];
-                
-                questionText.innerHTML = `Question ${currentQuestionIndex + 1}/${shuffledQuestions.length}: ${q.question}`;
-                optionsContainer.innerHTML = '';
-                optionsContainer.classList.remove('disabled'); // Enable options for new question
-
-                const shuffledOptions = shuffleArray([...q.options]); // Shuffle options for each question
-
-                shuffledOptions.forEach((option) => {
-                    const button = document.createElement('button');
-                    button.classList.add('option-button');
-                    button.textContent = option;
-                    button.onclick = () => selectOption(option, button);
-                    optionsContainer.appendChild(button);
-                });
-
-                // If user has already answered this question, show their previous selection and answer status.
-                if (userAnswers[currentQuestionIndex] !== null) {
-                    revealAnswer(userAnswers[currentQuestionIndex]);
-                    optionsContainer.classList.add('disabled'); // Disable options if already answered
+        document.addEventListener('DOMContentLoaded', () => {
+            const allQuestions = [
+                {
+                    question: "The doctor orders an IV medication to be infused at 4 mcg/kg/min. The patient weighs 75 kg. You are supplied with a bag of the IV medication that reads 250 mg/250 mL. How many mL/hr will you administer?",
+                    options: ["9 mL/hr", "18 mL/hr", "36 mL/hr", "72 mL/hr"],
+                    answer: "18 mL/hr"
+                },
+                {
+                    question: "Dr orders Fentanyl 75 mcg IV pre-procedural. The vial is labeled 0.5 mg/mL. How many mL will you give per dose?",
+                    options: ["0.075 mL/dose", "0.15 mL/dose", "0.75 mL/dose", "1.5 mL/dose"],
+                    answer: "0.15 mL/dose"
+                },
+                {
+                    question: "Dr orders Insulin 8 units subcutaneous daily. The vial is labeled 100 units/mL. How many mL will you give per dose?",
+                    options: ["0.008 mL/dose", "0.04 mL/dose", "0.08 mL/dose", "0.8 mL/dose"],
+                    answer: "0.08 mL/dose"
+                },
+                {
+                    question: "Dr orders Morphine 6 mg IV as needed for pain. The vial is labeled 10 mg/mL. How many mL will you give per dose?",
+                    options: ["0.06 mL/dose", "0.1 mL/dose", "0.6 mL/dose", "1.0 mL/dose"],
+                    answer: "0.6 mL/dose"
+                },
+                {
+                    question: "Dr orders Amiodarone 300 mg IV stat. The vial is labeled 900 mg/6 mL. How many mL will you give per dose?",
+                    options: ["1 mL/dose", "2 mL/dose", "3 mL/dose", "4 mL/dose"],
+                    answer: "2 mL/dose"
+                },
+                {
+                    question: "Dr orders Lactulose 20 Grams by mouth twice a day. The pharmacy dispenses you with 40 grams/60 mL. How many mL will you administer per dose?",
+                    options: ["15 mL/dose", "20 mL/dose", "30 mL/dose", "40 mL/dose"],
+                    answer: "30 mL/dose"
+                },
+                {
+                    question: "Dr orders Dopamine to be infused at 5 mcg/kg/min. The patient weighs 60 kg. You are supplied with a bag of the IV medication that reads 400 mg/250 mL. How many mL/hr will you administer?",
+                    options: ["5.625 mL/hr", "11.25 mL/hr", "22.5 mL/hr", "45 mL/hr"],
+                    answer: "11.25 mL/hr"
+                },
+                {
+                    question: "Dr orders Heparin 5000 units subcutaneous daily. The vial is labeled 10,000 units/mL. How many mL will you give per dose?",
+                    options: ["0.1 mL/dose", "0.25 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
+                    answer: "0.5 mL/dose"
+                },
+                {
+                    question: "Dr orders Atropine 0.5 mg IV pre-procedural. The vial is labeled 1 mg/mL. How many mL will you give per dose?",
+                    options: ["0.1 mL/dose", "0.25 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
+                    answer: "0.5 mL/dose"
+                },
+                {
+                    question: "Dr orders Vancomycin 750 mg IV every 12 hours. The vial is labeled 1 g/10 mL. How many mL will you give per dose?",
+                    options: ["0.75 mL/dose", "3.75 mL/dose", "7.5 mL/dose", "15 mL/dose"],
+                    answer: "7.5 mL/dose"
+                },
+                {
+                    question: "Dr orders Enoxaparin 40 mg subcutaneous daily. The vial is labeled 80 mg/0.8 mL. How many mL will you give per dose?",
+                    options: ["0.2 mL/dose", "0.4 mL/dose", "0.6 mL/dose", "0.8 mL/dose"],
+                    answer: "0.4 mL/dose"
+                },
+                {
+                    question: "Dr orders Hydromorphone 2 mg IV as needed for pain. The vial is labeled 10 mg/mL. How many mL will you give per dose?",
+                    options: ["0.1 mL/dose", "0.2 mL/dose", "0.5 mL/dose", "1.0 mL/dose"],
+                    answer: "0.2 mL/dose"
+                },
+                {
+                    question: "Dr orders Diltiazem to be infused at 10 mg/hr. You are supplied with a bag of the IV medication that reads 250 mg/250 mL. How many mL/hr will you administer?",
+                    options: ["5 mL/hr", "10 mL/hr", "15 mL/hr", "20 mL/hr"],
+                    answer: "10 mL/hr"
+                },
+                {
+                    question: "Dr orders Potassium Chloride 20 mEq IV daily. The vial is labeled 40 mEq/20 mL. How many mL will you give per dose?",
+                    options: ["5 mL/dose", "10 mL/dose", "15 mL/dose", "20 mL/dose"],
+                    answer: "10 mL/dose"
+                },
+                {
+                    question: "Dr orders Ondansetron 6 mg IV every 6 hours as needed for nausea. The vial is labeled 4 mg/2 mL. How many mL will you give per dose?",
+                    options: ["1.5 mL/dose", "2 mL/dose", "3 mL/dose", "4.5 mL/dose"],
+                    answer: "3 mL/dose"
+                },
+                {
+                    question: "Dr orders Midazolam 4 mg IV pre-procedural. The vial is labeled 5 mg/mL. How many mL will you give per dose?",
+                    options: ["0.4 mL/dose", "0.6 mL/dose", "0.8 mL/dose", "1.0 mL/dose"],
+                    answer: "0.8 mL/dose"
+                },
+                {
+                    question: "Dr orders Epinephrine to be infused at 0.1 mcg/kg/min. The patient weighs 90 kg. You are supplied with a bag of the IV medication that reads 1 mg/250 mL. How many mL/hr will you administer?",
+                    options: ["22.5 mL/hr", "45 mL/hr", "90 mL/hr", "135 mL/hr"],
+                    answer: "135 mL/hr"
+                },
+                {
+                    question: "Dr orders Metoprolol 12.5 mg IV every 6 hours. The vial is labeled 5 mg/mL. How many mL will you give per dose?",
+                    options: ["1.25 mL/dose", "2.5 mL/dose", "3.75 mL/dose", "5 mL/dose"],
+                    answer: "2.5 mL/dose"
+                },
+                {
+                    question: "Dr orders Sodium Bicarbonate 50 mEq IV stat. The vial is labeled 100 mEq/50 mL. How many mL will you give per dose?",
+                    options: ["12.5 mL/dose", "25 mL/dose", "37.5 mL/dose", "50 mL/dose"],
+                    answer: "25 mL/dose"
+                },
+                {
+                    question: "Dr orders Ceftriaxone 1 g IV daily. The vial is labeled 2 g/10 mL. How many mL will you give per dose?",
+                    options: ["2 mL/dose", "2.5 mL/dose", "5 mL/dose", "10 mL/dose"],
+                    answer: "5 mL/dose"
                 }
-                
-                updateNavigationButtons();
-            } else {
-                showResults();
-            }
-        }
+            ];
 
-        function selectOption(selectedOption, clickedButton) {
-            optionsContainer.classList.add('disabled'); // Disable all options after user makes a selection
+            let currentQuestionIndex = 0;
+            let userAnswers = [];
+            let shuffledQuestions = [];
+
+            const quizContainer = document.getElementById('quiz-container');
+            const quizContent = document.getElementById('quiz-content');
+            const questionText = document.getElementById('question-text');
+            const optionsContainer = document.getElementById('options-container');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const quizResult = document.getElementById('quiz-result');
+            const startButton = document.querySelector('.cta-button');
+            const progressBar = document.getElementById('progress-bar');
             
-            const currentQuestion = shuffledQuestions[currentQuestionIndex];
-            const correctAnswer = currentQuestion.answer;
-            const buttons = optionsContainer.querySelectorAll('.option-button');
-
-            // Highlight correct and incorrect answers
-            buttons.forEach(button => {
-                if (button.textContent === correctAnswer) {
-                    button.classList.add('correct');
-                } else if (button === clickedButton && selectedOption !== correctAnswer) {
-                    button.classList.add('incorrect'); // User selected this and it's wrong
-                } else if (button.textContent === selectedOption && selectedOption !== correctAnswer) {
-                     // If the user selected this option and it's wrong
-                    button.classList.add('selected-wrong');
+            // Function to shuffle an array (Fisher-Yates shuffle)
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
                 }
-            });
-
-            // Store the selected answer
-            userAnswers[currentQuestionIndex] = selectedOption;
-        }
-
-        function revealAnswer(userChosenAnswer) {
-            const currentQuestion = shuffledQuestions[currentQuestionIndex];
-            const correctAnswer = currentQuestion.answer;
-            const buttons = optionsContainer.querySelectorAll('.option-button');
-
-            buttons.forEach(button => {
-                // Clear all previous status classes
-                button.classList.remove('correct', 'incorrect', 'selected-wrong');
-
-                if (button.textContent === correctAnswer) {
-                    button.classList.add('correct');
-                } else if (button.textContent === userChosenAnswer && userChosenAnswer !== correctAnswer) {
-                    button.classList.add('incorrect'); // User had selected this and it was wrong
-                }
-            });
-            optionsContainer.classList.add('disabled'); // Keep options disabled
-        }
-
-        function updateNavigationButtons() {
-            prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.textContent = currentQuestionIndex === shuffledQuestions.length - 1 ? 'Finish' : 'Next';
-        }
-
-        function calculateScore() {
-            score = 0;
-            for (let i = 0; i < shuffledQuestions.length; i++) {
-                if (userAnswers[i] === shuffledQuestions[i].answer) {
-                    score++;
-                }
+                return array;
             }
-        }
 
-        function showResults() {
-            calculateScore();
-            questionText.textContent = ''; // Clear question
-            optionsContainer.innerHTML = ''; // Clear options
-            prevButton.style.display = 'none';
-            nextButton.style.display = 'none';
-            quizResult.style.display = 'block';
-            quizResult.textContent = `Congratulations! You answered ${score} out of ${shuffledQuestions.length} questions correctly.`;
-        }
-
-        prevButton.addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
+            function startQuiz() {
+                shuffledQuestions = shuffleArray([...allQuestions]);
+                currentQuestionIndex = 0;
+                userAnswers = new Array(shuffledQuestions.length).fill(null);
+                
+                quizResult.style.display = 'none';
+                quizResult.innerHTML = ''; // Clear previous results
+                quizContainer.style.display = 'block';
+                quizContent.style.display = 'block';
+                document.querySelector('.quiz-navigation').style.display = 'flex';
+                
                 loadQuestion();
             }
-        });
 
-        nextButton.addEventListener('click', () => {
-            if (currentQuestionIndex < shuffledQuestions.length - 1) {
-                if (userAnswers[currentQuestionIndex] !== null) {
+            function loadQuestion() {
+                // Fade out old question
+                quizContent.classList.remove('fade-in');
+                quizContent.classList.add('fade-out');
+
+                setTimeout(() => {
+                    if (currentQuestionIndex < shuffledQuestions.length) {
+                        const q = shuffledQuestions[currentQuestionIndex];
+                        
+                        questionText.innerHTML = `Question ${currentQuestionIndex + 1}/${shuffledQuestions.length}:<br>${q.question}`;
+                        optionsContainer.innerHTML = '';
+                        optionsContainer.classList.remove('disabled');
+
+                        const shuffledOptions = shuffleArray([...q.options]);
+                        shuffledOptions.forEach(option => {
+                            const button = document.createElement('button');
+                            button.classList.add('option-button');
+                            button.textContent = option;
+                            button.onclick = () => selectOption(option, button);
+                            optionsContainer.appendChild(button);
+                        });
+
+                        if (userAnswers[currentQuestionIndex] !== null) {
+                            revealAnswer();
+                        }
+                        
+                        updateNavigationButtons();
+                        updateProgressBar();
+                    }
+                    // Fade in new question
+                    quizContent.classList.remove('fade-out');
+                    quizContent.classList.add('fade-in');
+
+                }, 200); // Match timeout with fade-out animation
+            }
+
+            function selectOption(selectedOption, clickedButton) {
+                if (userAnswers[currentQuestionIndex] !== null) return; // Prevent re-answering
+
+                userAnswers[currentQuestionIndex] = selectedOption;
+                const currentQuestion = shuffledQuestions[currentQuestionIndex];
+                const correctAnswer = currentQuestion.answer;
+
+                optionsContainer.classList.add('disabled');
+
+                if (selectedOption === correctAnswer) {
+                    clickedButton.classList.add('correct');
+                } else {
+                    clickedButton.classList.add('incorrect');
+                    // Highlight the correct answer
+                    Array.from(optionsContainer.children).forEach(btn => {
+                        if (btn.textContent === correctAnswer) {
+                            btn.classList.add('correct');
+                        }
+                    });
+                }
+            }
+            
+            function revealAnswer() {
+                const userChosenAnswer = userAnswers[currentQuestionIndex];
+                if (userChosenAnswer === null) return;
+
+                const correctAnswer = shuffledQuestions[currentQuestionIndex].answer;
+                const buttons = optionsContainer.querySelectorAll('.option-button');
+                
+                optionsContainer.classList.add('disabled');
+
+                buttons.forEach(button => {
+                    if (button.textContent === correctAnswer) {
+                        button.classList.add('correct');
+                    } else if (button.textContent === userChosenAnswer) {
+                        button.classList.add('incorrect');
+                    }
+                });
+            }
+
+
+            function updateNavigationButtons() {
+                prevButton.disabled = currentQuestionIndex === 0;
+                nextButton.textContent = currentQuestionIndex === shuffledQuestions.length - 1 ? 'Finish' : 'Next';
+            }
+            
+            function updateProgressBar() {
+                const progressPercentage = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+
+            function showResults() {
+                progressBar.style.width = '100%'; // Fill bar at the end
+                let score = 0;
+                userAnswers.forEach((answer, index) => {
+                    if (answer === shuffledQuestions[index].answer) {
+                        score++;
+                    }
+                });
+
+                quizContent.style.display = 'none';
+                document.querySelector('.quiz-navigation').style.display = 'none';
+
+                quizResult.style.display = 'block';
+                quizResult.innerHTML = `
+                    <div id="result-text">Congratulations! You scored <span class="score" id="final-score">0</span>/${shuffledQuestions.length}</div>
+                    <button id="restart-button" class="cta-button">Restart Quiz</button>
+                `;
+
+                // Animate score count-up
+                const finalScoreEl = document.getElementById('final-score');
+                let currentScore = 0;
+                const counter = setInterval(() => {
+                    finalScoreEl.textContent = currentScore;
+                    if (currentScore === score) {
+                        clearInterval(counter);
+                    } else {
+                        currentScore++;
+                    }
+                }, 100);
+
+                document.getElementById('restart-button').addEventListener('click', startQuiz);
+            }
+
+            prevButton.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    loadQuestion();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (userAnswers[currentQuestionIndex] === null) {
+                    alert('Please select an answer before proceeding.');
+                    return;
+                }
+
+                if (currentQuestionIndex < shuffledQuestions.length - 1) {
                     currentQuestionIndex++;
                     loadQuestion();
                 } else {
-                    alert('Please select an answer before proceeding to the next question.');
-                }
-            } else if (currentQuestionIndex === shuffledQuestions.length - 1) {
-                if (userAnswers[currentQuestionIndex] !== null) {
                     showResults();
-                } else {
-                    alert('Please select an answer for the last question.');
                 }
-            }
+            });
+
+            startButton.addEventListener('click', (e) => {
+                 e.preventDefault();
+                 document.querySelector(startButton.getAttribute('href')).scrollIntoView({
+                     behavior: 'smooth'
+                 });
+                 setTimeout(startQuiz, 500); // Give a little time for scroll
+            });
         });
 
-        // Start the quiz automatically when the page loads
-        startQuiz();
-
     </script>
-
 </body>
 </html>
