@@ -46,6 +46,18 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         /* General Styles */
         * {
             margin: 0;
@@ -59,6 +71,8 @@
             color: var(--text-color);
             line-height: 1.6;
             scroll-behavior: smooth;
+            position: relative;
+            min-height: 100vh;
         }
 
         .container {
@@ -92,6 +106,13 @@
             color: var(--primary-color);
             text-decoration: none;
             font-style: italic;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
         }
 
         .nav-links {
@@ -333,6 +354,82 @@
             margin: 0;
         }
 
+        /* Message Modal */
+        #message-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #message-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .message-content {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #message-modal.active .message-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .message-content h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .message-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            background-color: var(--white-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .nav-links {
@@ -360,6 +457,19 @@
                 font-size: 0.9rem;
                 padding: 0.8rem 1.2rem;
             }
+            
+            .message-content {
+                width: 90%;
+                padding: 1.5rem;
+            }
+            
+            .message-content h2 {
+                font-size: 1.5rem;
+            }
+            
+            .message-content p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -367,13 +477,23 @@
 
     <header class="main-header">
         <nav class="container main-nav">
-            <a href="#" class="logo">𝒚𝒐𝒖𝒔𝒔𝒆𝒇</a>
+            <!-- Modified: Changed logo to show message instead of YouTube link -->
+            <div class="logo" id="logo">𝒚𝒐𝒖𝒔𝒔𝒆𝒇</div>
             <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#questions">Start Test</a></li>
             </ul>
         </nav>
     </header>
+
+    <!-- Message Modal -->
+    <div id="message-modal">
+        <div class="message-content">
+            <h2>Special Message</h2>
+            <p id="message-text">aHR0cHM6Ly95b3V0dWJlLmNvbS9zaG9ydHMvMEJuUzFUUF9YMHd?c2k9cGpWLW5RbTROVDFhdm5OMA==</p>
+            <button class="close-btn" id="close-message">Close</button>
+        </div>
+    </div>
 
     <main>
         <section id="hero">
@@ -529,6 +649,9 @@
             const quizResult = document.getElementById('quiz-result');
             const startButton = document.querySelector('.cta-button');
             const progressBar = document.getElementById('progress-bar');
+            const logo = document.getElementById('logo');
+            const messageModal = document.getElementById('message-modal');
+            const closeMessage = document.getElementById('close-message');
             
             // Function to shuffle an array (Fisher-Yates shuffle)
             function shuffleArray(array) {
@@ -538,6 +661,23 @@
                 }
                 return array;
             }
+
+            // Show message when clicking on logo
+            logo.addEventListener('click', () => {
+                messageModal.classList.add('active');
+            });
+
+            // Close message modal
+            closeMessage.addEventListener('click', () => {
+                messageModal.classList.remove('active');
+            });
+
+            // Close modal when clicking outside content
+            messageModal.addEventListener('click', (e) => {
+                if (e.target === messageModal) {
+                    messageModal.classList.remove('active');
+                }
+            });
 
             function startQuiz() {
                 shuffledQuestions = shuffleArray([...allQuestions]);
